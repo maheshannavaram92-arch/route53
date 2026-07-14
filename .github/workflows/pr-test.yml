@@ -1,0 +1,27 @@
+name: PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  pull_request_review_comment:
+    types: [created]
+  issue_comment:
+    types: [created]
+
+jobs:
+  pr-agent:
+    uses: maheshannavaram92-arch/pr-review-workflows/.github/workflows/pr-agent.yml@main
+    with:
+      auto_describe: true
+      auto_improve: true
+      auto_review: true
+      feedback: true
+      pr_url: ${{ github.event.pull_request.html_url }}
+      risk_scorecard: true
+      risk_gate: true
+      risk_threshold: HIGH
+      codebase_context: true
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      PR_AGENT_WRAPPER_PRIVATE_KEY: ${{ secrets.PR_AGENT_WRAPPER_PRIVATE_KEY }}
